@@ -91,11 +91,11 @@ namespace MyApp.Tests
         }
 
         [Fact]
-        public void IsLeapYear_ConsoleIO_Nay2021()
+        public void IsLeapYear_ConsoleIO_Nay1582()
         {
             // Arrange
             var writer = new StringWriter();
-            var reader = new StringReader("2021");
+            var reader = new StringReader("1582");
             Console.SetOut(writer);
             Console.SetIn(reader);
 
@@ -122,6 +122,40 @@ namespace MyApp.Tests
             // Assert
             var output = writer.GetStringBuilder().ToString();
             Assert.Contains("yay", output);
+        }
+
+        [Fact]
+        public void IsLeapYear_ConsoleIO_ShowsErrorMessageOnInputWASD()
+        {
+            // Arrange
+            var writer = new StringWriter();
+            var reader = new StringReader("WASD");
+            Console.SetOut(writer);
+            Console.SetIn(reader);
+
+            // Act
+            Program.UserAskAboutLeapYear();
+
+            // Assert
+            var output = writer.GetStringBuilder().ToString();
+            Assert.Contains("The year must be an integer - please try again.", output);
+        }
+
+        [Fact]
+        public void IsLeapYear_ConsoleIO_ShowsErrorMessageOnTooLowYear1581()
+        {
+            // Arrange
+            var writer = new StringWriter();
+            var reader = new StringReader("1581");
+            Console.SetOut(writer);
+            Console.SetIn(reader);
+
+            // Act
+            Program.UserAskAboutLeapYear();
+
+            // Assert
+            var output = writer.GetStringBuilder().ToString();
+            Assert.Contains($"The year must be above {Program.minYear} - please try again.", output);
         }
     }
 }

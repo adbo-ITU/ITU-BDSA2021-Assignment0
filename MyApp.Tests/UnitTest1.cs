@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Xunit;
 
 namespace MyApp.Tests
@@ -69,6 +70,58 @@ namespace MyApp.Tests
 
             // Assert
             Assert.False(ans);
+        }
+
+        [Fact]
+        public void IsLeapYear_ConsoleIO_AsksQuestion()
+        {
+            // Arrange
+            var writer = new StringWriter();
+            var reader = new StringReader("2021");
+            Console.SetOut(writer);
+            Console.SetIn(reader);
+
+            // Act
+            Program.UserAskAboutLeapYear();
+
+            // Assert
+            var output = writer.GetStringBuilder().ToString();
+            Assert.Contains("Is it a leap year? Find out!", output);
+            Assert.Contains("Please enter a year: ", output);
+        }
+
+        [Fact]
+        public void IsLeapYear_ConsoleIO_Nay2021()
+        {
+            // Arrange
+            var writer = new StringWriter();
+            var reader = new StringReader("2021");
+            Console.SetOut(writer);
+            Console.SetIn(reader);
+
+            // Act
+            Program.UserAskAboutLeapYear();
+
+            // Assert
+            var output = writer.GetStringBuilder().ToString();
+            Assert.Contains("nay", output);
+        }
+
+        [Fact]
+        public void IsLeapYear_ConsoleIO_Yay2024()
+        {
+            // Arrange
+            var writer = new StringWriter();
+            var reader = new StringReader("2024");
+            Console.SetOut(writer);
+            Console.SetIn(reader);
+
+            // Act
+            Program.UserAskAboutLeapYear();
+
+            // Assert
+            var output = writer.GetStringBuilder().ToString();
+            Assert.Contains("yay", output);
         }
     }
 }
